@@ -2,9 +2,10 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-class Config:
+class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     FLASKY_MAIL_SUBJECT_PREFIX = '[FLASKY]'
     FLASKY_MAIL_SENDER = 'Flasky Admin qq562554268@163.com'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
@@ -13,7 +14,7 @@ class Config:
     def init_app(app):
         pass
 
-    class DevelopmentConfig(Config):
+class DevelopmentConfig(Config):
         DEBUG = True
         MAIL_SERVER = 'smtp.163.com'
         MAIL_PORT = 465
@@ -23,19 +24,19 @@ class Config:
         SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
                                   'sqlite:///' + os.path.join(basedir, 'data_dev.sqlite')
 
-    class TestingConfig(Config):
+class TestingConfig(Config):
         TESTING = True
         SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
                                   'sqlite:///' + os.path.join(basedir, 'data_test.sqlite')
 
-    class ProductionConfig(Config):
+class ProductionConfig(Config):
         SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
                                   'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 
-    config = {
-        'development' : DevelopmentConfig,
-        'testing' : TestingConfig,
-        'production' : ProductionConfig,
+config = {
+    'development' : DevelopmentConfig,
+    'testing' : TestingConfig,
+    'production' : ProductionConfig,
 
-        'default' : DevelopmentConfig
-    }
+    'default' : DevelopmentConfig
+}
