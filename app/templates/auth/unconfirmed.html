@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Flask - Unconfirmed{% endblock %}
+
+{% block page_content %}
+<div class="page.header">
+    <h1>Hello, {{ current_user.username }}<h1>
+    <h2>You have not confirmed your account yet.</h2>
+    <p>
+        Need another confirmation email?
+        <a href="{{ url_for('auth.resend_confirmation') }}">click here</a>
+    </p>
+</div>
+{% endblock %}

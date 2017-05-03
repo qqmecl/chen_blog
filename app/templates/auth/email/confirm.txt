@@ -1,0 +1,3 @@
+{{ user.username }}, welcome to chen_blog!
+To confirm your account please click on the following link:
+{{ url_for('auth.confirm', token = token, _external = True) }}

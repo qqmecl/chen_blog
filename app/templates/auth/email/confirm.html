@@ -1,0 +1,7 @@
+<h1>
+{{ user.username }}, welcome to chen_blog!
+</h1>
+<p>
+To confirm your account please click on the following link:
+<a href="{{ url_for('auth.confirm', token=token, _external=True) }}">click here</a>
+</p>
