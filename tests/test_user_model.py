@@ -4,6 +4,18 @@ from app import create_app, db
 from app.models import User, Role, AnonymousUser, Permission, Follow
 
 class UserModelTestCase(unittest.TestCase):
+    def setUp(self):
+        self.app = create_app('testing')
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        db.create_all()
+        Role.insert_roles()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
+    
     def test_password_setter(self):
         u = User(password = 'cat')
         self.assertTrue(u.password_hash is not None)
@@ -24,8 +36,7 @@ class UserModelTestCase(unittest.TestCase):
         self.assertFalse(u.password_hash == u2.password_hash)
 
     def test_roles_and_permissions(self):
-        Role.insert_roles()
-        u = User(email = 'john@example.com', password = 'cat')
+        u = User(email = 'johnh@example.com', password = 'cat')
         self.assertTrue(u.can(Permission.WRITE_ARTICLES))
         self.assertFalse(u.can(Permission.MODERATE_COMMENTS))
 
@@ -34,7 +45,7 @@ class UserModelTestCase(unittest.TestCase):
         self.assertFalse(u.can(Permission.FOLLOW))
 
     def test_follows(self):
-        u1 = User(email='john@example.com', password='cat')
+        u1 = User(email='johsn@example.com', password='cat')
         u2 = User(email='susan@example.org', password='dog')
         db.session.add(u1)
         db.session.add(u2)
@@ -69,3 +80,13 @@ class UserModelTestCase(unittest.TestCase):
         db.session.delete(u2)
         db.session.commit()
         self.assertTrue(Follow.query.count() == 1)
+
+    def test_to_json(self):
+        u = User(email = 'johbn@example.com', password = 'cat')
+        db.session.add(u)
+        db.session.commit()
+        json_user = u.to_json()
+        expected_keys = ['url', 'username', 'member_since', 'last_seen',
+                         'posts', 'followed_posts', 'post_count']
+        self.assertEqual(sorted(json_user.keys()), sorted(expected_keys))
+        self.assertTrue('api/v1.0/users/' in json_user['url'])
