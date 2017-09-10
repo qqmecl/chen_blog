@@ -22,3 +22,5 @@ bleach==2.0.0
 flask-pagedown==0.2.2
 markdown==2.6.8
 flask-httpauth==3.2.2
+html5lib==1.0b3
+six==1.4.1
