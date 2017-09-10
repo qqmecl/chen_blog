@@ -38,7 +38,7 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
         SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-                                  'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+                                  'postgresql://gkneqivmlbrpuw:285d579b27013ec573b096c75b18726de7e297e226df4639619af5c50b0b3d55@ec2-50-17-236-15.compute-1.amazonaws.com/d46uqkupmmljfh')
 
         @classmethod
         def init_app(cls, app):
