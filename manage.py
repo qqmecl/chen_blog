@@ -15,6 +15,21 @@ manager = Manager(app)
 migrate = Migrate(app, db)
 
 @manager.command
+def deploy():
+    '''Run deployment tasks.'''
+    from flask_migrate import upgrade
+    from app.models import Role, User
+    
+    # migrate database to lastest revision
+    upgrade()
+
+    # create user roles
+    Role.insert_roles()
+
+    # create self-follows for all users
+    User.add_self_follows()
+
+@manager.command
 def test():
     """Run the unit tests."""
     import unittest
