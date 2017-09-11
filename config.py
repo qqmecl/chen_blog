@@ -14,7 +14,7 @@ class Config(object):
     FLASKY_MAIL_SUBJECT_PREFIX = 'chen_blog'
     FLASKY_MAIL_SENDER = 'chen li<qqmecl@gmail.com>'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
-    MAIL_SERVER = 'smtp.goolemail.com'
+    MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
