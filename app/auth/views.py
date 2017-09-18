@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
@@ -30,7 +31,7 @@ def resend_confirmation():
     token = current_user.generate_confirmation_token()
     send_email(current_user.email, 'Dear, you need confirm you account.',
                'auth/email/confirm', user = current_user, token = token)
-    flash('A new confirmation email has been sent to you by email.')
+    flash('已给您的邮箱发送新的认证邮件，请接收！')
     return redirect(url_for('main.index'))
 
 
@@ -42,7 +43,7 @@ def login():
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
             return redirect(request.args.get('next') or url_for('main.index'))
-        flash('Invalid username or password.')
+        flash('用户名或密码无效')
     return render_template('auth/login.html', form = form)
 
 
@@ -50,7 +51,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out.')
+    flash('您已退出登录')
     return redirect(url_for('main.index'))
 
 
@@ -66,7 +67,7 @@ def register():
         token = user.generate_confirmation_token()
         send_email(user.email, 'Confirm Your Account',
                    'auth/email/confirm', user = user, token = token)
-        flash('A confirmation email has been sent to you by email.')
+        flash('已给您的邮箱发送新的认证邮件，请查收！')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form = form)
 
@@ -77,8 +78,8 @@ def confirm(token):
     if current_user.confirmed:
         return redirect(url_for('main.index'))
     if current_user.confirm(token):
-        flash('You have confirmed your account. Thanks!')
+        flash('您的账户已认证，您的社交博客之旅正式开始！')
     else:
-        flash('The confirmation link is invalid or has expired.')
+        flash('链接无效或认证链接已过期，请重新验证！')
     return redirect(url_for('main.index'))
 
