@@ -13,13 +13,14 @@ class LoginForm(FlaskForm):
 
 
 class RegistrationForm(FlaskForm):
-    email = StringField('邮件', validators = [Required(), Length(1, 64), Email()])
-    username = StringField('用户名', validators = [Required(), Length(1, 64), 
-                           Regexp('^[A-Za-z][A-Za-z0-9._]*$', 0, 'Username must have only letters,' 
-                           'numbers, dots or underscores')])
-    password = PasswordField('密码', validators = [Required(), EqualTo('password2', 
-                             message = 'password must match.')])
-    password2 = PasswordField('确认密码', validators = [Required()])
+    email = StringField('邮件', validators = [Required('输入不可为空'), Length(1, 64, '请输入1-64位'),
+                        Email('请输入正确邮箱地址')])
+    username = StringField('用户名', validators = [Required('输入不可为空'), Length(1, 64, '请输入1-64位'), 
+                           Regexp(u'^[0-9a-zA-Z\u4e00-\u9fa5]{2,16}$', 0,  
+                           '请输入2-10位的数字、字母、汉字或三者的组合')])
+    password = PasswordField('密码', validators = [Required('输入不可为空'), EqualTo('password2', 
+                             message = '两次输入的密码必须相同')])
+    password2 = PasswordField('确认密码', validators = [Required('输入不可为空')])
     submit = SubmitField('注册')
 
     def validate_email(self, field):

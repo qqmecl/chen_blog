@@ -1,3 +1,3 @@
-{{ user.username }}, welcome to chen_blog!
-To confirm your account please click on the following link:
+{{ user.username }}，欢迎你的到来
+为认证您的信息，请点击以下链接：
 {{ url_for('auth.confirm', token = token, _external = True) }}

@@ -7,17 +7,17 @@
 {% block page_content %}
 <div class="page-header">
     <h1>
-    Hello, 
+    欢迎 
     {% if current_user.is_authenticated %}
-        {{ current_user.username }}
+        {{ current_user.username }}的到来
     {% else %}
-        Stranger
-    {% endif %}!
+        光临
+    {% endif %}！
     </h1>
     {% if not known %}
-    <p>Pleased to meet you!</p>
+    <p>这里是chen的博客社交程序</p>
     {% else %}
-    <p>Happy to see you again!</p>
+    <p>我们又见面了！</p>
     {% endif %}
 </div>
 <div>
@@ -27,9 +27,9 @@
 </div>
 <div class="post-tabs">
     <ul class="nav nav-tabs">
-        <li {% if not show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_all') }}">ALL</a></li>
+        <li {% if not show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_all') }}">全部文章</a></li>
         {% if current_user.is_authenticated %}
-        <li {% if show_followed %} class="active" {% endif %}><a href="{{ url_for('.show_followed') }}">Followers</a></li>
+        <li {% if show_followed %} class="active" {% endif %}><a href="{{ url_for('.show_followed') }}">关注用户的文章</a></li>
         {% endif %}
     </ul>
     {% include "_posts.html" %}

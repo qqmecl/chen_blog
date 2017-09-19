@@ -6,6 +6,9 @@ from .. import db
 from ..models import User
 from .forms import LoginForm, RegistrationForm
 from ..email import send_email
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 @auth.before_app_request
 def before_request():

@@ -10,6 +10,9 @@ from ..email import send_email
 from ..models import User, Role, Permission, Post, Comment
 from ..decorators import admin_required, permission_required
 from flask_sqlalchemy import get_debug_queries
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 @main.route('/shutdown')
 def server_shutdown():

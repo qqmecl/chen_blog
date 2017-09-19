@@ -15,7 +15,7 @@
             </div>
             <div class="comment-body">
                 {% if comment.disabled %}
-                <p><i>This comment has been disabled by moderator.</i></p>
+                <p><i>评论已被管理员屏蔽</i></p>
                 {% endif %}
                 {% if moderate or not comment.disabled %}
                     {% if comment.body_html %}
@@ -29,10 +29,10 @@
                 <br>
                 {% if comment.disabled %}
                 <a class="btn btn-default btn-xs" href="{{ url_for('.moderate_enable',
-                    id = comment.id, page = page) }}">Enable</a>
+                    id = comment.id, page = page) }}">显示</a>
                 {% else %}
                 <a class="btn btn-danger btn-xs" href="{{ url_for('.moderate_disable',
-                    id = comment.id, page = page) }}">Disable</a>
+                    id = comment.id, page = page) }}">屏蔽</a>
                 {% endif %}
             {% endif %}
         </div>
