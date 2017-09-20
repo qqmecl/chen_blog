@@ -20,7 +20,7 @@ class EditProfileForm(FlaskForm):
 
 
 class EditProfileAdminForm(FlaskForm):
-    email = StringField('邮件', validators = [Required('输入不可为空'), Length(1, 64, '请输入1-64位'),
+    email = StringField('邮箱', validators = [Required('输入不可为空'), Length(1, 64, '请输入1-64位'),
                         Email('请输入正确邮箱地址')])
     username = StringField('用户名', validators = [
                            Required('输入不可为空'), Length(1, 64, '请输入1-64位'),

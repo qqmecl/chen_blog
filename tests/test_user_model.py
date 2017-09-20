@@ -90,3 +90,49 @@ class UserModelTestCase(unittest.TestCase):
                          'posts', 'followed_posts', 'post_count']
         self.assertEqual(sorted(json_user.keys()), sorted(expected_keys))
         self.assertTrue('api/v1.0/users/' in json_user['url'])
+
+    def test_valid_reset_password(self):
+        u = User(password = 'cat')
+        db.session.add(u)
+        db.session.commit()
+        token = u.generate_reset_token()
+        self.assertTrue(u.reset_password(token, 'dog'))
+        self.assertTrue(u.verify_password('dog'))
+
+    def test_invalid_reset_token(self):
+        u1 = User(password = 'cat')
+        u2 = User(password = 'dog')
+        db.session.add(u1)
+        db.session.add(u2)
+        db.session.commit()
+        token = u1.generate_reset_token()
+        self.assertFalse(u2.reset_password(token, 'hoo'))
+        self.assertTrue(u2.verify_password('dog'))
+
+    def test_valid_email_change_token(self):
+        u = User(email = 'jo@example.com', password = 'cat')
+        db.session.add(u)
+        db.session.commit()
+        token = u.generate_email_change_token('su@example.com')
+        self.assertTrue(u.change_email(token))
+        self.assertTrue(u.email == 'su@example.com')
+
+    def test_invalid_email_change_token(self):
+        u1 = User(email = 'jo@example.com', password = 'cat')
+        u2 = User(email = 'su@example.org', password = 'dog')
+        db.session.add(u1)
+        db.session.add(u2)
+        db.session.commit()
+        token = u1.generate_email_change_token('ccc@example.com')
+        self.assertFalse(u2.change_email(token))
+        self.assertTrue(u2.email == 'su@example.org')
+
+    def test_duplicate_email_change_token(self):
+        u1 = User(email = 'jo@example.com', password = 'cat')
+        u2 = User(email = 'su@example.com', password = 'dog')
+        db.session.add(u1)
+        db.session.add(u2)
+        db.session.commit()
+        token = u2.generate_email_change_token('jo@example.com')
+        self.assertFalse(u2.change_email(token))
+        self.assertTrue(u2.email == 'su@example.com')

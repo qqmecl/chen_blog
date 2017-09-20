@@ -1,0 +1,9 @@
+{{ user.username }} 您好
+
+想更改邮箱?点击以下链接:
+
+{{ url_for('auth.change_email', token = token, _external = True) }}
+
+chen 敬上
+
+备注:邮件勿回复

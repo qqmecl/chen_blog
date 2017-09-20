@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import unittest
 from app import create_app, db
 from app.models import User, Role
@@ -20,7 +21,7 @@ class FlaskClientTestCase(unittest.TestCase):
 
     def test_home_page(self):
         response = self.client.get(url_for('main.index'))
-        self.assertTrue('Stranger' in response.get_data(as_text = True))
+        self.assertTrue('光临' in response.get_data(as_text = True))
 
     def test_register_and_login(self):
         response = self.client.post(url_for('auth.register'), data = {
@@ -34,7 +35,7 @@ class FlaskClientTestCase(unittest.TestCase):
                 'email': 'jo@example.com',
                 'password': 144}, follow_redirects = True)
         data = response.get_data(as_text = True)
-        self.assertTrue(re.search('Hello,\s+cl', data))
+        self.assertTrue(re.search('欢迎cl的到来', data))
         self.assertTrue('You have not confirmed' in data)
 
         user = User.query.filter_by(email = 'jo@example.com').first()
